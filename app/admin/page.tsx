@@ -13,8 +13,8 @@ type ShareTokenResponse = {
 
 export default function AdminPage() {
   // Form & Auth states
-  const [username, setUsername] = useState("admin");
-  const [password, setPassword] = useState("admin");
+  const [username, setUsername] = useState(() => "");
+  const [password, setPassword] = useState(() => "");
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [shareToken, setShareToken] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -26,7 +26,7 @@ export default function AdminPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("https://tnp-recruitment-challenge.manitvig.live/login", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -54,7 +54,7 @@ export default function AdminPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("https://tnp-recruitment-challenge.manitvig.live/share", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/share`, {
         method: "POST",
         headers: { Authorization: `Bearer ${accessToken}` },
       });
@@ -78,8 +78,8 @@ export default function AdminPage() {
     setAccessToken(null);
     setShareToken(null);
     setError(null);
-    setUsername("admin");
-    setPassword("admin");
+    setUsername(process.env.ADMIN_USERNAME || "");
+    setPassword(process.env.ADMIN_PASSWORD || "");
   }
 
   // Loading
