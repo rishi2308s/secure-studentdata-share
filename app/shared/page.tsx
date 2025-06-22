@@ -1,6 +1,7 @@
 //Shared Page
 "use client"; 
 
+import React, { Suspense } from "react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -11,7 +12,7 @@ type Student = {
   roll_no: string;
 };
 
-export default function SharedPage() {
+function SharedPage() {
   const searchParams = useSearchParams();
   const shareToken = searchParams.get("shareToken"); // Get token from URL
   const [data, setData] = useState<Student[]>([]);        // All data
@@ -121,6 +122,13 @@ export default function SharedPage() {
         </>
       )}
     </main>
+  );
+}
+export default function SharedPageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SharedPage />
+    </Suspense>
   );
 }
 
