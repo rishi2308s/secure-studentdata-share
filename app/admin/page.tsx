@@ -6,7 +6,6 @@ import { useState } from "react";
 // Structure of Login response
 type LoginResponse = {
   accessToken: string;
-  refreshToken: string;
 };
 type ShareTokenResponse = {
   shareToken: string;
@@ -17,7 +16,6 @@ export default function AdminPage() {
   const [username, setUsername] = useState("admin");
   const [password, setPassword] = useState("admin");
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [shareToken, setShareToken] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -36,7 +34,6 @@ export default function AdminPage() {
       if (!res.ok) throw new Error("Login failed");
       const data: LoginResponse = await res.json();
       setAccessToken(data.accessToken);
-      setRefreshToken(data.refreshToken);
       setShareToken(null); 
     } catch (err: any) {
       setError(err.message || "Unknown error");
@@ -67,7 +64,6 @@ export default function AdminPage() {
 
   function handleLogout() {
     setAccessToken(null);
-    setRefreshToken(null);
     setShareToken(null);
     setError(null);
     setUsername("admin");
