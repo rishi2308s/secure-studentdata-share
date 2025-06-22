@@ -35,9 +35,15 @@ export default function AdminPage() {
       const data: LoginResponse = await res.json();
       setAccessToken(data.accessToken);
       setShareToken(null); 
-    } catch (err: any) {
-      setError(err.message || "Unknown error");
-    } finally {
+    } 
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Unknown error");
+      }
+    }
+    finally {
       setLoading(false);
     }
   }
@@ -55,9 +61,15 @@ export default function AdminPage() {
       if (!res.ok) throw new Error("Failed to generate share token");
       const data: ShareTokenResponse = await res.json();
       setShareToken(data.shareToken);
-    } catch (err: any) {
-      setError(err.message || "Unknown error");
-    } finally {
+    } 
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Unknown error");
+      }
+    } 
+    finally {
       setLoading(false);
     }
   }
